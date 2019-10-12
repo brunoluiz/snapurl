@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 
-	"github.com/brunoluiz/snapurl/internal/handler"
+	"github.com/brunoluiz/snapurl/server"
 )
 
 func main() {
@@ -54,13 +54,13 @@ func start(c *cli.Context) error {
 	gatewayAddress := fmt.Sprintf(":%s", c.String("gateway-port"))
 
 	go func() {
-		if err := handler.StartGRPCServer(grpcAddress); err != nil {
+		if err := server.StartGRPCServer(grpcAddress); err != nil {
 			log.Fatal(err)
 		}
 	}()
 
 	go func() {
-		if err := handler.StartGRPCGateway(gatewayAddress, grpcAddress); err != nil {
+		if err := server.StartGRPCGateway(gatewayAddress, grpcAddress); err != nil {
 			log.Fatal(err)
 		}
 	}()
