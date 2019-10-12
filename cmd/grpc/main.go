@@ -30,11 +30,10 @@ func main() {
 			Usage:  "grpc server port",
 			EnvVar: "PORT",
 		},
-		cli.StringFlag{
-			Name:   "gateway-enabled",
-			Value:  "true",
-			Usage:  "grpc gateway enabled",
-			EnvVar: "GATEWAY_ENABLED",
+		cli.BoolFlag{
+			Name:   "gateway-disable",
+			Usage:  "disable grpc gateway",
+			EnvVar: "GATEWAY_DISABLE",
 		},
 		cli.StringFlag{
 			Name:   "gateway-port",
@@ -60,6 +59,10 @@ func start(c *cli.Context) error {
 	}()
 
 	go func() {
+		if c.Bool("gateway-disable") {
+			return
+		}
+
 		if err := server.StartGRPCGateway(gatewayAddress, grpcAddress); err != nil {
 			log.Fatal(err)
 		}
