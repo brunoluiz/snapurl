@@ -1,4 +1,4 @@
-package server
+package service
 
 import (
 	"context"
@@ -13,22 +13,22 @@ import (
 	"google.golang.org/grpc"
 )
 
-func StartGRPCServer(address string) error {
+func StartGRPCservice(address string) error {
 	// create a listener on TCP port 5000
 	lis, err := net.Listen("tcp", address)
 	if err != nil {
 		return fmt.Errorf("failed to listen: %v", err)
 	}
 
-	// create a server instance
-	h := Handler{}
+	// create a service instance
+	h := Service{}
 
-	// create a gRPC server object
-	grpcServer := grpc.NewServer()
-	snapurl.RegisterURLSnapServer(grpcServer, &h)
+	// create a gRPC service object
+	server := grpc.NewServer()
+	snapurl.RegisterURLSnapServer(server, &h)
 
-	log.Infof("GRPC Server on %s", address)
-	return grpcServer.Serve(lis)
+	log.Infof("GRPC service on %s", address)
+	return server.Serve(lis)
 }
 
 func StartGRPCGateway(address, grpcAddress string) error {

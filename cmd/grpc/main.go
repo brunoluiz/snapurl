@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 
-	"github.com/brunoluiz/snapurl/server"
+	"github.com/brunoluiz/snapurl/service"
 )
 
 func main() {
@@ -18,16 +18,16 @@ func main() {
 
 	a := cli.NewApp()
 
-	a.Name = "snapurl server"
-	a.Usage = "URLSnap server API"
-	a.Description = "URLSnap server API"
+	a.Name = "snapurl service"
+	a.Usage = "URLSnap service API"
+	a.Description = "URLSnap service API"
 	a.Action = start
 
 	a.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:   "port",
 			Value:  "5000",
-			Usage:  "grpc server port",
+			Usage:  "grpc service port",
 			EnvVar: "PORT",
 		},
 		cli.BoolFlag{
@@ -53,7 +53,7 @@ func start(c *cli.Context) error {
 	gatewayAddress := fmt.Sprintf(":%s", c.String("gateway-port"))
 
 	go func() {
-		if err := server.StartGRPCServer(grpcAddress); err != nil {
+		if err := service.StartGRPCservice(grpcAddress); err != nil {
 			log.Fatal(err)
 		}
 	}()
@@ -63,7 +63,7 @@ func start(c *cli.Context) error {
 			return
 		}
 
-		if err := server.StartGRPCGateway(gatewayAddress, grpcAddress); err != nil {
+		if err := service.StartGRPCGateway(gatewayAddress, grpcAddress); err != nil {
 			log.Fatal(err)
 		}
 	}()
