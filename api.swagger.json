@@ -1,0 +1,60 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/snapshot/{url}": {
+      "get": {
+        "operationId": "Snapshot",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/snapurlSnapshotResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wait_time",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "URLSnap"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "snapurlSnapshotResponse": {
+      "type": "object",
+      "properties": {
+        "snapshot_url": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

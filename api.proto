@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package snapurl;
+
+import "google/api/annotations.proto";
+
+service URLSnap {
+  rpc Snapshot (SnapshotRequest) returns (SnapshotResponse) {
+    option (google.api.http) = {
+      get: "/v1/snapshot/{url}"
+    };
+  }
+}
+
+message SnapshotRequest {
+  string url = 1;
+  int32 wait_time = 2;
+}
+
+message SnapshotResponse {
+  string snapshot_url = 1;
+}
