@@ -1,16 +1,20 @@
+clean:
+	rm -rf ./bin
+	go clean -x
+
 build-grpc:
 	go build -o ./bin/grpc ./cmd/grpc
 
 build-cli-linux:
-	GOOS=linux GOARCH=amd64 go build -o ./bin/snapurl ./cmd/cli
+	GOOS=linux GOARCH=amd64 go build -o ./bin/snapurl ./cmd/snapurl
 
 build-cli-windows:
-	GOOS=windows GOARCH=amd64 go build -o ./bin/snapurl ./cmd/cli
+	GOOS=windows GOARCH=amd64 go build -o ./bin/snapurl ./cmd/snapurl
 
 build-cli-darwin:
-	GOOS=darwin GOARCH=amd64 go build -o ./bin/snapurl ./cmd/cli
+	GOOS=darwin GOARCH=amd64 go build -o ./bin/snapurl ./cmd/snapurl
 
-all: build-grpc build-cli-linux build-cli-windows build-cli-darwin
+all: clean build-grpc build-cli-linux build-cli-windows build-cli-darwin
 
 protos:
 	protoc \
