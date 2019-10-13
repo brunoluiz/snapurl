@@ -1,6 +1,16 @@
-build:
+build-grpc:
 	go build -o ./bin/grpc ./cmd/grpc
-	go build -o ./bin/cli ./cmd/cli
+
+build-cli-linux:
+	GOOS=linux GOARCH=amd64 go build -o ./bin/snapurl ./cmd/cli
+
+build-cli-windows:
+	GOOS=windows GOARCH=amd64 go build -o ./bin/snapurl ./cmd/cli
+
+build-cli-darwin:
+	GOOS=darwin GOARCH=amd64 go build -o ./bin/snapurl ./cmd/cli
+
+all: build-grpc build-cli-linux build-cli-windows build-cli-darwin
 
 protos:
 	protoc \
