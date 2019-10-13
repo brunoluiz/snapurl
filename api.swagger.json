@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/snapshot/{url}": {
+    "/v1/snapshot": {
       "get": {
         "operationId": "Snapshot",
         "responses": {
@@ -29,12 +29,12 @@
         "parameters": [
           {
             "name": "url",
-            "in": "path",
-            "required": true,
+            "in": "query",
+            "required": false,
             "type": "string"
           },
           {
-            "name": "wait_time",
+            "name": "wait_period",
             "in": "query",
             "required": false,
             "type": "integer",

@@ -8,14 +8,14 @@ import "google/api/httpbody.proto";
 service URLSnap {
   rpc Snapshot (SnapshotRequest) returns (google.api.HttpBody) {
     option (google.api.http) = {
-      get: "/v1/snapshot/{url}"
+      get: "/v1/snapshot"
     };
   }
 }
 
 message SnapshotRequest {
   string url = 1;
-  int32 wait_time = 2;
+  int32 wait_period = 2;
 }
 
 message SnapshotResponse {

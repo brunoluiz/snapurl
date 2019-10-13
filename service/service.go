@@ -10,10 +10,12 @@ import (
 
 type Service struct{}
 
-const chunkSize int = 64
-
 func (h *Service) Snapshot(ctx context.Context, req *snapurl.SnapshotRequest) (*httpbody.HttpBody, error) {
-	buf, err := snapshot.Snap(context.Background(), "https://google.co.uk", snapshot.Params{})
+	params := snapshot.Params{
+		WaitPeriod: req.WaitPeriod,
+	}
+
+	buf, err := snapshot.Snap(context.Background(), req.Url, params)
 	if err != nil {
 		return nil, err
 	}

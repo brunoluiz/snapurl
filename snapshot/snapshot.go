@@ -12,7 +12,7 @@ import (
 
 // Params Snapshot params
 type Params struct {
-	WaitPeriod int
+	WaitPeriod int32
 }
 
 // Snap Get snapshot from website, based on configuration params
@@ -20,7 +20,7 @@ func Snap(ctx context.Context, url string, params Params) (buf []byte, err error
 	ctx, cancel := chromedp.NewContext(ctx)
 	defer cancel()
 
-	duration := 5
+	duration := int32(5)
 	if params.WaitPeriod != 0 {
 		duration = params.WaitPeriod
 	}
@@ -30,9 +30,8 @@ func Snap(ctx context.Context, url string, params Params) (buf []byte, err error
 
 	err = chromedp.Run(ctx, chromedp.Tasks{
 		chromedp.Navigate(url),
+		chromedp.Sleep(interval),
 		chromedp.ActionFunc(func(ctx context.Context) error {
-			time.Sleep(interval)
-
 			// get layout metrics
 			_, _, contentSize, err := page.GetLayoutMetrics().Do(ctx)
 			if err != nil {
