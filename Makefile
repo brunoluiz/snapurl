@@ -1,5 +1,6 @@
 build:
 	go build -o ./bin/grpc ./cmd/grpc
+	go build -o ./bin/cli ./cmd/cli
 
 protos:
 	protoc \
