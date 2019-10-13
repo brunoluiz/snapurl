@@ -37,6 +37,7 @@ func StartGRPCGateway(address, grpcAddress string) error {
 	defer cancel()
 
 	mux := runtime.NewServeMux()
+	runtime.SetHTTPBodyMarshaler(mux)
 
 	// Setup the client gRPC options
 	opts := []grpc.DialOption{grpc.WithInsecure()}

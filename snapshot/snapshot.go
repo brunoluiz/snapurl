@@ -20,7 +20,7 @@ func Snap(ctx context.Context, url string, params Params) (buf []byte, err error
 	ctx, cancel := chromedp.NewContext(ctx)
 	defer cancel()
 
-	duration := 15
+	duration := 5
 	if params.WaitPeriod != 0 {
 		duration = params.WaitPeriod
 	}

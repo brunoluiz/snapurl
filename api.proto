@@ -3,9 +3,10 @@ syntax = "proto3";
 package snapurl;
 
 import "google/api/annotations.proto";
+import "google/api/httpbody.proto";
 
 service URLSnap {
-  rpc Snapshot (SnapshotRequest) returns (SnapshotResponse) {
+  rpc Snapshot (SnapshotRequest) returns (google.api.HttpBody) {
     option (google.api.http) = {
       get: "/v1/snapshot/{url}"
     };
