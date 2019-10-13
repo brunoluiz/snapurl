@@ -32,17 +32,17 @@ var _ = utilities.NewDoubleArray
 var _ = descriptor.ForMessage
 
 var (
-	filter_URLSnap_Snapshot_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_SnapURL_Snapshot_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_URLSnap_Snapshot_0(ctx context.Context, marshaler runtime.Marshaler, client URLSnapClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_SnapURL_Snapshot_0(ctx context.Context, marshaler runtime.Marshaler, client SnapURLClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq SnapshotRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_URLSnap_Snapshot_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SnapURL_Snapshot_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -51,11 +51,11 @@ func request_URLSnap_Snapshot_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-func local_request_URLSnap_Snapshot_0(ctx context.Context, marshaler runtime.Marshaler, server URLSnapServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_SnapURL_Snapshot_0(ctx context.Context, marshaler runtime.Marshaler, server SnapURLServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq SnapshotRequest
 	var metadata runtime.ServerMetadata
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_URLSnap_Snapshot_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_SnapURL_Snapshot_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -64,12 +64,12 @@ func local_request_URLSnap_Snapshot_0(ctx context.Context, marshaler runtime.Mar
 
 }
 
-// RegisterURLSnapHandlerServer registers the http handlers for service URLSnap to "mux".
-// UnaryRPC     :call URLSnapServer directly.
+// RegisterSnapURLHandlerServer registers the http handlers for service SnapURL to "mux".
+// UnaryRPC     :call SnapURLServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-func RegisterURLSnapHandlerServer(ctx context.Context, mux *runtime.ServeMux, server URLSnapServer) error {
+func RegisterSnapURLHandlerServer(ctx context.Context, mux *runtime.ServeMux, server SnapURLServer) error {
 
-	mux.Handle("GET", pattern_URLSnap_Snapshot_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_SnapURL_Snapshot_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -78,23 +78,23 @@ func RegisterURLSnapHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_URLSnap_Snapshot_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_SnapURL_Snapshot_0(rctx, inboundMarshaler, server, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_URLSnap_Snapshot_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_SnapURL_Snapshot_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterURLSnapHandlerFromEndpoint is same as RegisterURLSnapHandler but
+// RegisterSnapURLHandlerFromEndpoint is same as RegisterSnapURLHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterURLSnapHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterSnapURLHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -114,23 +114,23 @@ func RegisterURLSnapHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeM
 		}()
 	}()
 
-	return RegisterURLSnapHandler(ctx, mux, conn)
+	return RegisterSnapURLHandler(ctx, mux, conn)
 }
 
-// RegisterURLSnapHandler registers the http handlers for service URLSnap to "mux".
+// RegisterSnapURLHandler registers the http handlers for service SnapURL to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterURLSnapHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterURLSnapHandlerClient(ctx, mux, NewURLSnapClient(conn))
+func RegisterSnapURLHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterSnapURLHandlerClient(ctx, mux, NewSnapURLClient(conn))
 }
 
-// RegisterURLSnapHandlerClient registers the http handlers for service URLSnap
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "URLSnapClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "URLSnapClient"
+// RegisterSnapURLHandlerClient registers the http handlers for service SnapURL
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "SnapURLClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "SnapURLClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "URLSnapClient" to call the correct interceptors.
-func RegisterURLSnapHandlerClient(ctx context.Context, mux *runtime.ServeMux, client URLSnapClient) error {
+// "SnapURLClient" to call the correct interceptors.
+func RegisterSnapURLHandlerClient(ctx context.Context, mux *runtime.ServeMux, client SnapURLClient) error {
 
-	mux.Handle("GET", pattern_URLSnap_Snapshot_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_SnapURL_Snapshot_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -139,14 +139,14 @@ func RegisterURLSnapHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_URLSnap_Snapshot_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_SnapURL_Snapshot_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_URLSnap_Snapshot_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_SnapURL_Snapshot_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -154,9 +154,9 @@ func RegisterURLSnapHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 }
 
 var (
-	pattern_URLSnap_Snapshot_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "snapshot"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_SnapURL_Snapshot_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "snapshot"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (
-	forward_URLSnap_Snapshot_0 = runtime.ForwardResponseMessage
+	forward_SnapURL_Snapshot_0 = runtime.ForwardResponseMessage
 )

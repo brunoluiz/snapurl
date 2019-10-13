@@ -19,8 +19,8 @@ func main() {
 	a := cli.NewApp()
 
 	a.Name = "snapurl service"
-	a.Usage = "URLSnap service API"
-	a.Description = "URLSnap service API"
+	a.Usage = "SnapURL service API"
+	a.Description = "SnapURL service API"
 	a.Action = start
 
 	a.Flags = []cli.Flag{

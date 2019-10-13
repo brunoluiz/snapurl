@@ -6,13 +6,14 @@ package api
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -146,10 +147,10 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// URLSnapClient is the client API for URLSnap service.
+// SnapURLClient is the client API for SnapURL service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type URLSnapClient interface {
+type SnapURLClient interface {
 	Snapshot(ctx context.Context, in *SnapshotRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error)
 }
 
@@ -157,61 +158,61 @@ type uRLSnapClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewURLSnapClient(cc *grpc.ClientConn) URLSnapClient {
+func NewSnapURLClient(cc *grpc.ClientConn) SnapURLClient {
 	return &uRLSnapClient{cc}
 }
 
 func (c *uRLSnapClient) Snapshot(ctx context.Context, in *SnapshotRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error) {
 	out := new(httpbody.HttpBody)
-	err := c.cc.Invoke(ctx, "/api.URLSnap/Snapshot", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.SnapURL/Snapshot", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// URLSnapServer is the server API for URLSnap service.
-type URLSnapServer interface {
+// SnapURLServer is the server API for SnapURL service.
+type SnapURLServer interface {
 	Snapshot(context.Context, *SnapshotRequest) (*httpbody.HttpBody, error)
 }
 
-// UnimplementedURLSnapServer can be embedded to have forward compatible implementations.
-type UnimplementedURLSnapServer struct {
+// UnimplementedSnapURLServer can be embedded to have forward compatible implementations.
+type UnimplementedSnapURLServer struct {
 }
 
-func (*UnimplementedURLSnapServer) Snapshot(ctx context.Context, req *SnapshotRequest) (*httpbody.HttpBody, error) {
+func (*UnimplementedSnapURLServer) Snapshot(ctx context.Context, req *SnapshotRequest) (*httpbody.HttpBody, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Snapshot not implemented")
 }
 
-func RegisterURLSnapServer(s *grpc.Server, srv URLSnapServer) {
-	s.RegisterService(&_URLSnap_serviceDesc, srv)
+func RegisterSnapURLServer(s *grpc.Server, srv SnapURLServer) {
+	s.RegisterService(&_SnapURL_serviceDesc, srv)
 }
 
-func _URLSnap_Snapshot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SnapURL_Snapshot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SnapshotRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(URLSnapServer).Snapshot(ctx, in)
+		return srv.(SnapURLServer).Snapshot(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.URLSnap/Snapshot",
+		FullMethod: "/api.SnapURL/Snapshot",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(URLSnapServer).Snapshot(ctx, req.(*SnapshotRequest))
+		return srv.(SnapURLServer).Snapshot(ctx, req.(*SnapshotRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _URLSnap_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "api.URLSnap",
-	HandlerType: (*URLSnapServer)(nil),
+var _SnapURL_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "api.SnapURL",
+	HandlerType: (*SnapURLServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Snapshot",
-			Handler:    _URLSnap_Snapshot_Handler,
+			Handler:    _SnapURL_Snapshot_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

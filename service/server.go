@@ -25,7 +25,7 @@ func StartGRPCService(address string) error {
 
 	// create a gRPC service object
 	server := grpc.NewServer()
-	api.RegisterURLSnapServer(server, &h)
+	api.RegisterSnapURLServer(server, &h)
 
 	log.Infof("GRPC service on %s", address)
 	return server.Serve(lis)
@@ -43,7 +43,7 @@ func StartGRPCGateway(address, grpcAddress string) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	// Register ping
-	err := api.RegisterURLSnapHandlerFromEndpoint(ctx, mux, grpcAddress, opts)
+	err := api.RegisterSnapURLHandlerFromEndpoint(ctx, mux, grpcAddress, opts)
 	if err != nil {
 		log.Error(err)
 		return fmt.Errorf("could not register service Ping: %s", err)

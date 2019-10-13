@@ -5,7 +5,7 @@ package api;
 import "google/api/annotations.proto";
 import "google/api/httpbody.proto";
 
-service URLSnap {
+service SnapURL {
   rpc Snapshot (SnapshotRequest) returns (google.api.HttpBody) {
     option (google.api.http) = {
       get: "/v1/snapshot"
