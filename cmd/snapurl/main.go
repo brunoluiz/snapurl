@@ -20,6 +20,8 @@ func main() {
 	a := cli.NewApp()
 
 	a.Name = "snapurl command line tool"
+	a.Usage = "easy snapshots for websites"
+	a.ArgsUsage = "[url Website URL]"
 	a.Action = start
 
 	a.Flags = []cli.Flag{
