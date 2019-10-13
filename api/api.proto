@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package snapurl;
+package api;
 
 import "google/api/annotations.proto";
 import "google/api/httpbody.proto";

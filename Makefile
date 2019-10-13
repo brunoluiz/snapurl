@@ -10,4 +10,4 @@ protos:
 		--grpc-gateway_out=logtostderr=true:. \
 		--go_out=plugins=grpc:. \
 		--swagger_out=logtostderr=true:. \
-		api.proto
+		api/api.proto

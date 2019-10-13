@@ -1,4 +1,4 @@
-package snapshot
+package snapurl
 
 import (
 	"context"
@@ -12,25 +12,17 @@ import (
 
 // Params Snapshot params
 type Params struct {
-	WaitPeriod int32
+	WaitPeriod time.Duration
 }
 
 // Snap Get snapshot from website, based on configuration params
-func Snap(ctx context.Context, url string, params Params) (buf []byte, err error) {
+func Snap(ctx context.Context, url string, p Params) (buf []byte, err error) {
 	ctx, cancel := chromedp.NewContext(ctx)
 	defer cancel()
 
-	duration := int32(5)
-	if params.WaitPeriod != 0 {
-		duration = params.WaitPeriod
-	}
-
-	// This is a hack to wait the whole page to load
-	interval := time.Duration(duration) * time.Second
-
 	err = chromedp.Run(ctx, chromedp.Tasks{
 		chromedp.Navigate(url),
-		chromedp.Sleep(interval),
+		chromedp.Sleep(p.WaitPeriod),
 		chromedp.ActionFunc(func(ctx context.Context) error {
 			// get layout metrics
 			_, _, contentSize, err := page.GetLayoutMetrics().Do(ctx)

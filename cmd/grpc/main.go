@@ -53,7 +53,7 @@ func start(c *cli.Context) error {
 	gatewayAddress := fmt.Sprintf(":%s", c.String("gateway-port"))
 
 	go func() {
-		if err := service.StartGRPCservice(grpcAddress); err != nil {
+		if err := service.StartGRPCService(grpcAddress); err != nil {
 			log.Fatal(err)
 		}
 	}()

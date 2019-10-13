@@ -8,12 +8,12 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/brunoluiz/snapurl"
+	"github.com/brunoluiz/snapurl/api"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
 )
 
-func StartGRPCservice(address string) error {
+func StartGRPCService(address string) error {
 	// create a listener on TCP port 5000
 	lis, err := net.Listen("tcp", address)
 	if err != nil {
@@ -25,7 +25,7 @@ func StartGRPCservice(address string) error {
 
 	// create a gRPC service object
 	server := grpc.NewServer()
-	snapurl.RegisterURLSnapServer(server, &h)
+	api.RegisterURLSnapServer(server, &h)
 
 	log.Infof("GRPC service on %s", address)
 	return server.Serve(lis)
@@ -43,7 +43,7 @@ func StartGRPCGateway(address, grpcAddress string) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	// Register ping
-	err := snapurl.RegisterURLSnapHandlerFromEndpoint(ctx, mux, grpcAddress, opts)
+	err := api.RegisterURLSnapHandlerFromEndpoint(ctx, mux, grpcAddress, opts)
 	if err != nil {
 		log.Error(err)
 		return fmt.Errorf("could not register service Ping: %s", err)
