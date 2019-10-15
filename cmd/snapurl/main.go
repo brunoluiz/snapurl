@@ -35,9 +35,24 @@ func main() {
 			Usage: "output path (folder + filename)",
 		},
 		cli.Int64Flag{
-			Name:  "wait-period",
+			Name:  "wait",
 			Usage: "wait period in seconds to render the page",
 			Value: 5,
+		},
+		cli.Int64Flag{
+			Name:  "width",
+			Usage: "viewport width",
+			Value: 1440,
+		},
+		cli.Int64Flag{
+			Name:  "height",
+			Usage: "viewport width",
+			Value: 900,
+		},
+		cli.Float64Flag{
+			Name:  "scale",
+			Usage: "viewport scale",
+			Value: 1,
 		},
 	}
 
@@ -49,11 +64,14 @@ func main() {
 func start(c *cli.Context) error {
 	url := c.Args().Get(0)
 	if url == "" {
-		return errors.New("No URL was set as argument")
+		return errors.New("no URL was set as argument")
 	}
 
 	buf, err := snapurl.Snap(context.Background(), url, snapurl.Params{
-		WaitPeriod: time.Duration(c.Int("wait-period")) * time.Second,
+		WaitPeriod: time.Duration(c.Int("wait")) * time.Second,
+		Width:      c.Int64("width"),
+		Height:     c.Int64("height"),
+		Scale:      c.Float64("scale"),
 	})
 	if err != nil {
 		return nil
@@ -61,14 +79,14 @@ func start(c *cli.Context) error {
 
 	err = os.MkdirAll(c.String("out-dir"), os.ModePerm)
 	if err != nil {
-		return errors.New("Output directory couldn't be created")
+		return errors.New("output directory couldn't be created")
 	}
 
 	var path string
 	if c.String("out") != "" {
 		path = c.String("out")
 	} else {
-		file := fmt.Sprintf("screenshot-%d.png", time.Now().Unix())
+		file := fmt.Sprintf("screenshot-%s.png", time.Now().Format("2006-01-02T15:04:05Z"))
 		path = fmt.Sprintf("%s/%s", c.String("out-dir"), file)
 	}
 
