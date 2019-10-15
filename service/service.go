@@ -19,6 +19,9 @@ func (h *Service) Snapshot(ctx context.Context, req *api.SnapshotRequest) (*http
 
 	buf, err := snapurl.Snap(context.Background(), req.Url, snapurl.Params{
 		WaitPeriod: time.Duration(duration) * time.Second,
+		Width:      req.Width,
+		Height:     req.Height,
+		Scale:      float64(req.Scale),
 	})
 	if err != nil {
 		return nil, err

@@ -39,6 +39,27 @@
             "required": false,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "scale",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
           }
         ],
         "tags": [

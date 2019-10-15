@@ -34,7 +34,7 @@ func Snap(ctx context.Context, url string, p Params) (buf []byte, err error) {
 	}
 
 	if p.Height == 0 {
-		p.Width = DefaultHeight
+		p.Height = DefaultHeight
 	}
 
 	if p.Scale == 0 {

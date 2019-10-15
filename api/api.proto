@@ -16,8 +16,7 @@ service SnapURL {
 message SnapshotRequest {
   string url = 1;
   int32 wait_period = 2;
-}
-
-message SnapshotResponse {
-  string snapshot_url = 1;
+  int64 width = 3;
+  int64 height = 4;
+  float scale = 5;
 }
