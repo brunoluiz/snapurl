@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/chromedp/cdproto v0.0.0-20191009033829-c22f49c9ff0a
 	github.com/chromedp/chromedp v0.5.0
+	github.com/creasty/defaults v1.3.0
 	github.com/gogo/protobuf v1.3.0
 	github.com/golang/protobuf v1.3.2
 	github.com/grpc-ecosystem/grpc-gateway v1.11.3

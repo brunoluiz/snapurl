@@ -30,9 +30,15 @@ func main() {
 			Usage: "output directory",
 			Value: ".",
 		},
+		cli.Int64Flag{
+			Name:  "quality",
+			Usage: "snapshot quality (valid only for jpeg)",
+			Value: 100,
+		},
 		cli.StringFlag{
-			Name:  "out",
-			Usage: "output path (folder + filename)",
+			Name:  "format",
+			Usage: "format (jpeg and png only)",
+			Value: "png",
 		},
 		cli.Int64Flag{
 			Name:  "wait",
@@ -67,11 +73,18 @@ func start(c *cli.Context) error {
 		return errors.New("no URL was set as argument")
 	}
 
+	ext := c.String("format")
+	if ext != "png" && ext != "jpeg" {
+		return errors.New("only png and jpeg are accepted formats")
+	}
+
 	buf, err := snapurl.Snap(context.Background(), url, snapurl.Params{
 		WaitPeriod: time.Duration(c.Int("wait")) * time.Second,
 		Width:      c.Int64("width"),
 		Height:     c.Int64("height"),
 		Scale:      c.Float64("scale"),
+		Quality:    c.Int64("quality"),
+		Format:     ext,
 	})
 	if err != nil {
 		return nil
@@ -82,13 +95,8 @@ func start(c *cli.Context) error {
 		return errors.New("output directory couldn't be created")
 	}
 
-	var path string
-	if c.String("out") != "" {
-		path = c.String("out")
-	} else {
-		file := fmt.Sprintf("screenshot-%s.png", time.Now().Format("2006-01-02T15:04:05Z"))
-		path = fmt.Sprintf("%s/%s", c.String("out-dir"), file)
-	}
+	file := fmt.Sprintf("screenshot-%s.%s", time.Now().Format("2006-01-02T15:04:05Z"), ext)
+	path := fmt.Sprintf("%s/%s", c.String("out-dir"), file)
 
 	return ioutil.WriteFile(path, buf, 0644)
 }

@@ -8,20 +8,17 @@ import (
 	"github.com/chromedp/cdproto/emulation"
 	"github.com/chromedp/cdproto/page"
 	"github.com/chromedp/chromedp"
-)
-
-const (
-	DefaultWidth  int64   = 1440
-	DefaultHeight int64   = 900
-	DefaultScale  float64 = 1.0
+	"github.com/creasty/defaults"
 )
 
 // Params Snapshot params
 type Params struct {
-	WaitPeriod time.Duration
-	Width      int64
-	Height     int64
-	Scale      float64
+	WaitPeriod time.Duration `default:"5s"`
+	Width      int64         `default:"1440"`
+	Height     int64         `default:"900"`
+	Scale      float64       `default:"1.0"`
+	Format     string        `default:"jpeg"`
+	Quality    int64         `default:"90"`
 }
 
 // Snap Get snapshot from website, based on configuration params
@@ -29,16 +26,8 @@ func Snap(ctx context.Context, url string, p Params) (buf []byte, err error) {
 	ctx, cancel := chromedp.NewContext(ctx)
 	defer cancel()
 
-	if p.Width == 0 {
-		p.Width = DefaultWidth
-	}
-
-	if p.Height == 0 {
-		p.Height = DefaultHeight
-	}
-
-	if p.Scale == 0 {
-		p.Scale = DefaultScale
+	if err := defaults.Set(&p); err != nil {
+		return nil, err
 	}
 
 	err = chromedp.Run(ctx, chromedp.Tasks{
@@ -68,6 +57,8 @@ func Snap(ctx context.Context, url string, p Params) (buf []byte, err error) {
 
 			// capture screenshot
 			buf, err = page.CaptureScreenshot().
+				WithFormat(page.CaptureScreenshotFormat(p.Format)).
+				WithQuality(p.Quality).
 				WithClip(&page.Viewport{
 					X:      contentSize.X,
 					Y:      contentSize.Y,
